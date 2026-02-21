@@ -4,11 +4,11 @@ import User from "../../models/User.js";
 export async function getRecommendedUsers(req, res) {
     try {
         const currentUserId = req.user._id;
-        const currentUser = req.user
+        const currentUser = req.user;
         const recommendedUsers = await User.find({
             $and: [
                 { _id: { $ne: currentUserId } },
-                {$id: { $nin: currentUser.friends }},
+                { _id: { $nin: currentUser.friends } },
                 { isOnboarded: true }
             ],
         });
@@ -75,17 +75,17 @@ export async function sendFriendRequest(req, res) {
     }
 }
 
-export async function acceptFriendRequest (req, res) {{
-    try{
-        const {id:requestId} = req.params;
+export async function acceptFriendRequest(req, res) {
+    try {
+        const { id: requestId } = req.params;
         const friendRequest = await FriendRequest.findById(requestId);
-        if(!friendRequest){
-            return res.status(404).json({message: "Friend request not found"});
+        if (!friendRequest) {
+            return res.status(404).json({ message: "Friend request not found" });
         }
 
         //verify the current user is the recipient
-        if(friendRequest.recipient.toString() !== req.user._id){
-            return res.status(403).json({message: "You are not authorized to accept this friend request"});
+        if (friendRequest.recipient.toString() !== req.user._id.toString()) {
+            return res.status(403).json({ message: "You are not authorized to accept this friend request" });
         }
 
         friendRequest.status = "accepted";
@@ -97,13 +97,13 @@ export async function acceptFriendRequest (req, res) {{
         await User.findByIdAndUpdate(friendRequest.recipient, {
             $addToSet: { friends: friendRequest.sender },
         });
-        res.status(200).json({message: "Friend request accepted"});
+        res.status(200).json({ message: "Friend request accepted" });
 
-    } catch(error){ 
+    } catch (error) {
         console.log("Error in acceptFriendRequest controller:", error.message);
         res.status(500).json({ message: "Internal server error" });
-     }
-}}
+    }
+}
 
 
 export async function getFriendRequests(req, res) {

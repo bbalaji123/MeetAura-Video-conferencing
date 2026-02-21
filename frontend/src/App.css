@@ -1,46 +1,234 @@
+/* Meet Aura - Video Conferencing App Styles */
+
+/* Remove default Vite styles */
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Stream Chat customizations for night theme */
+.str-chat {
+  --str-chat__primary-color: oklch(var(--p));
+  --str-chat__active-primary-color: oklch(var(--pf));
+  --str-chat__surface-color: oklch(var(--b1));
+  --str-chat__secondary-surface-color: oklch(var(--b2));
+  --str-chat__primary-surface-color: oklch(var(--b3));
+  --str-chat__primary-surface-color-low-emphasis: oklch(var(--b2));
+  --str-chat__border-radius-circle: 9999px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.str-chat__theme-dark {
+  --str-chat__background-color: oklch(var(--b2));
+  --str-chat__primary-text-color: oklch(var(--bc));
+  --str-chat__secondary-text-color: oklch(var(--bc) / 0.7);
+  --str-chat__disabled-text-color: oklch(var(--bc) / 0.4);
+}
+
+.str-chat__channel-list {
+  background: oklch(var(--b1));
+}
+
+.str-chat__channel-preview-messenger--active {
+  background: oklch(var(--p) / 0.1) !important;
+  border-left: 3px solid oklch(var(--p));
+}
+
+.str-chat__message-input {
+  background: oklch(var(--b1));
+  border-top: 1px solid oklch(var(--bc) / 0.1);
+}
+
+.str-chat__input-flat {
+  background: oklch(var(--b2));
+  border: 1px solid oklch(var(--bc) / 0.1);
+  border-radius: 0.75rem;
+}
+
+.str-chat__send-button {
+  background: oklch(var(--p)) !important;
+  border-radius: 0.5rem !important;
+}
+
+/* Stream Video customizations */
+.str-video {
+  --str-video__primary-color: oklch(var(--p));
+  --str-video__background-color: oklch(var(--b3));
+  --str-video__text-color: oklch(var(--bc));
+}
+
+.str-video__call-controls {
+  background: transparent !important;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  gap: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.str-video__call-controls__button {
+  background: white !important;
+  border-radius: 9999px !important;
+  width: 56px !important;
+  height: 56px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+  border: none !important;
+}
+
+.str-video__call-controls__button:hover {
+  background: #e5e5e5 !important;
+  transform: scale(1.05);
+}
+
+.str-video__call-controls__button--variant-danger {
+  background: #ef4444 !important;
+}
+
+.str-video__call-controls__button--variant-danger:hover {
+  background: #dc2626 !important;
+}
+
+.str-video__participant-view {
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.str-video__speaker-layout {
+  padding: 1rem;
+  gap: 1rem;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: oklch(var(--bc) / 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(var(--bc) / 0.3);
+}
+
+/* Animation for loading states */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
   }
-  to {
-    transform: rotate(360deg);
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+.animate-pulse-ring {
+  animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+
+/* Incoming call modal animation */
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.9;
   }
 }
 
-.card {
-  padding: 2em;
+.animate-pulse-slow {
+  animation: pulse-slow 2s ease-in-out infinite;
 }
 
-.read-the-docs {
-  color: #888;
+/* Video call grid improvements */
+.video-grid {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
 }
 
+.video-grid-1 {
+  grid-template-columns: 1fr;
+}
+
+.video-grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.video-grid-3,
+.video-grid-4 {
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+}
+
+/* Make Stream Video call control icons visible */
+.str-video__call-controls__button svg {
+  color: #1f2937 !important;
+  fill: #1f2937 !important;
+  stroke: #1f2937 !important;
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.str-video__call-controls__button svg path {
+  fill: #1f2937 !important;
+  stroke: #1f2937 !important;
+}
+
+.str-video__call-controls__button--variant-danger svg,
+.str-video__call-controls__button--variant-danger svg path {
+  color: white !important;
+  fill: white !important;
+  stroke: white !important;
+}
+
+/* Call control button active/toggled states */
+.str-video__call-controls__button[data-testid="audio-button"] svg,
+.str-video__call-controls__button[data-testid="video-button"] svg {
+  color: #1f2937 !important;
+}
+
+/* Icon containers inside buttons */
+.str-video__icon {
+  color: #1f2937 !important;
+}
+
+/* Ensure visibility of all Stream video icons */
+[class*="str-video"] svg {
+  color: #1f2937 !important;
+}
+
+.str-video__call-controls__button--variant-danger svg {
+  color: white !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .str-video__speaker-layout {
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
+  
+  .str-video__call-controls__button {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .str-video__call-controls__button svg {
+    width: 20px !important;
+    height: 20px !important;
 
 
 

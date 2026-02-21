@@ -84,6 +84,17 @@ try{
     return res.status(401).json({message: "Invalid email or password"});
    }
 
+   // Ensure Stream user exists/is updated on login
+   try {
+       await upserStreamUser({
+           id: user._id.toString(),
+           name: user.fullname,
+           image: user.profilePic || "",
+       });
+   } catch (streamError) {
+       console.error("Error upserting Stream user on login:", streamError);
+   }
+
    
    const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET_KEY, {
     expiresIn: '7d',
@@ -113,11 +124,11 @@ export function logout(req, res) {
 export async function onboard(req, res) {
     try {
         const userId = req.user._id;
-        const{fullName, bio, nativeLanguage, learningLanguage, location}= req.body;
+        const { fullName, bio, nativeLanguage, learningLanguage, location } = req.body;
 
-        if(!fullName || !bio || !nativeLanguage || !learningLanguage || !location){
-            return res.status(400).json({message: "All fields are required ",
-                message:"All fields are required ",
+        if (!fullName || !bio || !nativeLanguage || !learningLanguage || !location) {
+            return res.status(400).json({
+                message: "All fields are required",
                 missingFields: [
                     !fullName && "fullName",
                     !bio && "bio",

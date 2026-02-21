@@ -15,7 +15,7 @@ router.post("/onboarding",protectRoute, onboard)
 // forget-password if neededd add
 
 
-router.get("/me", protectRoute,  (req, res) =>{
-    res.status(200).json({success: true, userx: req.user});
-} );
+router.get("/me", protectRoute, (req, res) => {
+    res.status(200).json({ success: true, user: req.user });
+});
 export default router;
