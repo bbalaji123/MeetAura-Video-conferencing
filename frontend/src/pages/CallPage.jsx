@@ -17,6 +17,7 @@ import toast from "react-hot-toast";
 import {
   Users,
   Copy,
+  Share2,
   ArrowLeft,
   Home,
   Phone,
@@ -454,6 +455,43 @@ const CallLobby = ({
     toast.success("Call ID copied to clipboard!");
   };
 
+  const shareCallLink = async () => {
+    if (!callId) {
+      toast.error("Generate or enter a call ID first");
+      return;
+    }
+
+    const callLink = `${window.location.origin}/call?id=${encodeURIComponent(callId)}`;
+    const shareText = `Join my Meet Aura call: ${callLink}`;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Meet Aura Call",
+          text: "Join my video call",
+          url: callLink,
+        });
+        toast.success("Call link shared");
+        return;
+      } catch (error) {
+        if (error?.name === "AbortError") return;
+      }
+    }
+
+    window.open(
+      `https://wa.me/?text=${encodeURIComponent(shareText)}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
+
+    try {
+      await navigator.clipboard.writeText(callLink);
+      toast.success("Opened WhatsApp and copied call link");
+    } catch {
+      toast.success("Opened WhatsApp share");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-base-200">
       {/* Header */}
@@ -541,6 +579,15 @@ const CallLobby = ({
                       Join Call
                     </>
                   )}
+                </button>
+                <button
+                  className="btn btn-outline btn-secondary"
+                  onClick={shareCallLink}
+                  disabled={!callId || isJoining}
+                  title="Share meeting link"
+                >
+                  <Share2 className="w-4 h-4" />
+                  Share Link
                 </button>
                 <button className="btn btn-outline btn-primary" onClick={onCreateNew}>
                   <RefreshCw className="w-4 h-4" />
